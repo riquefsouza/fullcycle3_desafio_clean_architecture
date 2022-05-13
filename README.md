@@ -11,3 +11,7 @@ npm install -D supertest @types/supertest
 
 npm install -S yup
 
+npm install jstoxml
+
+npm install -D @types/jstoxml
+

@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import CreateCustomerUseCase from "../../../usecase/customer/create/create.customer.usecase";
 import ListCustomerUseCase from "../../../usecase/customer/list/list.customer.usecase";
 import CustomerRepository from "../../customer/repository/sequelize/customer.repository";
+import CustomerPresenter from "../presenters/customer.presenter";
 
 export const customerRoute = express.Router();
 
@@ -31,7 +32,17 @@ customerRoute.get('/', async (req: Request, res: Response) => {
 
     try {
         const output = await usecase.execute({});
-        res.send(output);
+        //res.send(output);
+        
+        //O retorno do DTO != Resultado do que eu quero disponibilizar como resposta da API
+        //Tudo é JSON. E se eu quiser o resultado em XML?
+        //Solução usar Presenter
+
+        res.format({
+            json: async () => res.send(output),
+            xml: async () => res.send(CustomerPresenter.listXML(output)),
+        });
+        
     } catch (err) {
         res.status(500).send(err);
     }
