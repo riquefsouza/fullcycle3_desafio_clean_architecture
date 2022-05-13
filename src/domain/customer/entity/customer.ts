@@ -4,6 +4,7 @@ import CustomerChangeAddressEvent from "../../customer/event/customer-change-add
 import EnviaConsoleLogHandler from "../../customer/event/handler/envia-console-log.handler";
 import Entity from "../../@shared/entity/entity.abstract";
 import NotificationError from "../../@shared/notification/notification.error";
+import CustomerValidatorFactory from "../factory/customer.validator.factory";
 
 export default class Customer extends Entity {
   //private _id: string;
@@ -38,6 +39,9 @@ export default class Customer extends Entity {
   }
 
   validate() {
+    CustomerValidatorFactory.create().validate(this);
+
+    /*
     if (this.id.length === 0) {
       //throw new Error("Id is required");
       this.notification.addError({
@@ -52,6 +56,7 @@ export default class Customer extends Entity {
         message: "Name is required",
       });
     }
+    */
   }
 
   changeName(name: string) {
